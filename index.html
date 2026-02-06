@@ -1,153 +1,514 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>我的文档</title>
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css">
-  <style>
-    /* 自定义样式 */
-    :root {
-      --sidebar-width: 300px;
-      --sidebar-nav-indent: 1em;
-      --sidebar-nav-link-before-content: '';
-    }
+    <meta charset="UTF-8">
+    <title>我的文档 - 类似Typora</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    /* 调整侧边栏和内容的布局 */
-    aside.sidebar {
-      width: var(--sidebar-width);
-      background-color: #f8f9fa;
-      border-right: 1px solid #e9ecef;
-    }
+    <!-- Docsify核心样式 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
     
-    .sidebar-nav {
-      padding-left: 10px;
-    }
+    <!-- Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    .sidebar-nav ul {
-      margin: 0;
-      padding-left: 0;
-    }
-    
-    .sidebar-nav li {
-      list-style: none;
-      margin: 5px 0;
-    }
-    
-    .sidebar-nav a {
-      color: #333;
-      text-decoration: none;
-      padding: 5px 10px;
-      display: block;
-      border-radius: 3px;
-      transition: all 0.3s;
-    }
-    
-    .sidebar-nav a:hover {
-      background-color: #e9ecef;
-      color: #007bff;
-    }
-    
-    /* 大纲样式 */
-    .app-nav, .sidebar-toggle {
-      display: none;
-    }
-    
-    /* 移动端适配 */
-    @media (max-width: 768px) {
-      :root {
-        --sidebar-width: 250px;
-      }
-    }
-  </style>
+    <style>
+        /* ===== 侧边栏标签页样式 ===== */
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+            padding: 0 10px;
+        }
+        
+        .sidebar-tab {
+            flex: 1;
+            padding: 12px 15px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 14px;
+            color: #495057;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .sidebar-tab:hover {
+            background: #e9ecef;
+            color: #007bff;
+        }
+        
+        .sidebar-tab.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+            background: #fff;
+            font-weight: 600;
+        }
+        
+        .sidebar-tab i {
+            font-size: 16px;
+        }
+        
+        /* ===== 侧边栏内容区 ===== */
+        .sidebar-content {
+            padding: 15px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
+        
+        /* 文件树容器 */
+        #file-tree {
+            display: block;
+        }
+        
+        /* 大纲容器 */
+        #page-outline {
+            display: none;
+        }
+        
+        /* ===== 文件树样式（类似Typora） ===== */
+        .file-tree {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        
+        .file-tree li {
+            margin: 4px 0;
+            position: relative;
+        }
+        
+        .file-tree ul {
+            list-style: none;
+            padding-left: 20px;
+            margin: 2px 0;
+            border-left: 1px solid #dee2e6;
+            margin-left: 10px;
+        }
+        
+        /* 文件夹和文件图标 */
+        .file-tree .folder::before {
+            content: '📁 ';
+            margin-right: 6px;
+            font-size: 14px;
+        }
+        
+        .file-tree .file::before {
+            content: '📄 ';
+            margin-right: 6px;
+            font-size: 14px;
+        }
+        
+        /* 可折叠的文件夹 */
+        .file-tree .folder.collapsible {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .file-tree .folder.collapsible::before {
+            content: '📂 ';
+            transition: transform 0.3s;
+        }
+        
+        .file-tree .folder.collapsible.collapsed::before {
+            content: '📁 ';
+        }
+        
+        /* 文件夹子项隐藏/显示 */
+        .file-tree .folder.collapsed + ul {
+            display: none;
+        }
+        
+        .file-tree .folder:not(.collapsed) + ul {
+            display: block;
+        }
+        
+        /* 文件链接样式 */
+        .file-tree a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: block;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .file-tree a:hover {
+            background: #e9ecef;
+            color: #007bff;
+        }
+        
+        .file-tree li.active > a {
+            background: #007bff;
+            color: white;
+            font-weight: 500;
+        }
+        
+        /* ===== 大纲样式（类似Typora） ===== */
+        .page-outline {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        
+        .page-outline li {
+            margin: 4px 0;
+            position: relative;
+        }
+        
+        /* 大纲层级缩进 */
+        .outline-h1 { padding-left: 0; font-weight: 600; font-size: 15px; }
+        .outline-h2 { padding-left: 15px; font-size: 14px; }
+        .outline-h3 { padding-left: 30px; font-size: 13px; color: #666; }
+        .outline-h4 { padding-left: 45px; font-size: 12px; color: #888; }
+        .outline-h5 { padding-left: 60px; font-size: 12px; color: #aaa; }
+        .outline-h6 { padding-left: 75px; font-size: 11px; color: #ccc; }
+        
+        .page-outline a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: block;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .page-outline a:hover {
+            background: #e9ecef;
+            color: #007bff;
+        }
+        
+        .page-outline li.active > a {
+            background: #e9ecef;
+            color: #007bff;
+            font-weight: 500;
+        }
+        
+        /* ===== 响应式调整 ===== */
+        @media (max-width: 768px) {
+            .sidebar-tab span {
+                display: none;
+            }
+            
+            .sidebar-tab i {
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div id="app"></div>
-  
-  <script>
-    window.$docsify = {
-      name: '我的文档',
-      repo: 'https://github.com/yourusername/your-repo',
-      loadSidebar: true,
-      loadNavbar: true,
-      mergeNavbar: true,
-      subMaxLevel: 4,
-      sidebarDisplayLevel: 1,
-      auto2top: true,
-      search: {
-        paths: 'auto',
-        placeholder: '搜索文档',
-        noData: '未找到结果',
-        depth: 6
-      },
+    <!-- 主容器 -->
+    <div id="app"></div>
+    
+    <!-- 自定义侧边栏模板 -->
+    <script type="text/template" id="custom-sidebar">
+        <div class="sidebar-tabs">
+            <button class="sidebar-tab active" data-tab="file-tree">
+                <i class="fas fa-folder-tree"></i>
+                <span>文件树</span>
+            </button>
+            <button class="sidebar-tab" data-tab="page-outline">
+                <i class="fas fa-list"></i>
+                <span>大纲</span>
+            </button>
+        </div>
+        
+        <div class="sidebar-content">
+            <!-- 文件树内容 -->
+            <div id="file-tree" class="tab-content active">
+                <ul class="file-tree">
+                    <!-- 动态生成文件树 -->
+                </ul>
+            </div>
+            
+            <!-- 大纲内容 -->
+            <div id="page-outline" class="tab-content">
+                <ul class="page-outline">
+                    <!-- 动态生成大纲 -->
+                </ul>
+            </div>
+        </div>
+    </script>
 
-  // 侧边栏配置
-  loadSidebar: true,
-  subMaxLevel: 6,  // 最大支持4级嵌套
-  sidebarDisplayLevel: 1,  // 默认展开1级
- // 折叠插件配置
-  sidebarFold: {
-    collapse: true,  // 启用折叠
-    level: 1,        // 默认折叠级别
-    arrow: '▶',      // 折叠箭头
-    arrowOpen: '▼'   // 展开箭头
-  },
-  // 添加别名配置，让导航更清晰
-  alias: {
-    '/.*/_sidebar.md': '/_sidebar.md'
-  },
-      plugins: [
-        function(hook, vm) {
-          hook.beforeEach(function(content) {
-            // 在每个页面添加编辑链接
-            return content + '\n\n---\n\n' + 
-              '<a href="' + vm.config.repo + '/edit/main/' + vm.route.file + 
-              '" target="_blank">编辑此页</a> | ' +
-              '<a href="' + vm.config.repo + '" target="_blank">查看源码</a>';
-          });
+    <script>
+        window.$docsify = {
+            name: '📚 我的文档',
+            repo: '',
+            loadSidebar: false, // 禁用默认侧边栏
+            auto2top: true,
+            maxLevel: 6, // 最大标题级别
+            subMaxLevel: 3,
+            
+            // 搜索配置
+            search: {
+                paths: 'auto',
+                placeholder: '🔍 搜索文档...',
+                noData: '未找到相关内容',
+                depth: 4
+            },
+            
+            // 插件配置
+            plugins: [
+                // 自定义侧边栏插件
+                function(hook, vm) {
+                    // 初始化完成后添加侧边栏
+                    hook.mounted(function() {
+                        // 创建侧边栏容器
+                        const sidebar = document.createElement('aside');
+                        sidebar.className = 'sidebar';
+                        sidebar.style.width = '300px';
+                        sidebar.innerHTML = document.getElementById('custom-sidebar').innerHTML;
+                        
+                        // 插入到页面中
+                        const app = document.querySelector('#app');
+                        const content = document.createElement('div');
+                        content.className = 'content';
+                        content.style.marginLeft = '300px';
+                        content.style.padding = '20px';
+                        content.style.maxWidth = '900px';
+                        
+                        // 移动原有内容
+                        const originalContent = app.innerHTML;
+                        content.innerHTML = originalContent;
+                        app.innerHTML = '';
+                        app.appendChild(sidebar);
+                        app.appendChild(content);
+                        
+                        // 初始化文件树
+                        initFileTree();
+                        
+                        // 初始化标签页切换
+                        initTabSwitcher();
+                    });
+                    
+                    // 每次页面更新后刷新大纲
+                    hook.doneEach(function() {
+                        updatePageOutline();
+                        highlightCurrentFile();
+                    });
+                }
+            ]
+        };
+        
+        // 初始化标签页切换
+        function initTabSwitcher() {
+            const tabs = document.querySelectorAll('.sidebar-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 移除所有激活状态
+                    document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // 激活当前标签
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
         }
-      ]
-    }
-  </script>
-  
-  <!-- Docsify核心文件 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-  
-  <!-- 搜索插件 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-  
-  <!-- 侧边栏折叠插件 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.js"></script>
-  
-  <!-- 代码高亮 -->
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-json.min.js"></script>
-  
-  <!-- 字数统计插件 -->
-  <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
-  
-  <!-- 图片缩放插件 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
-  
-  <!-- 一键复制插件 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
-  
-  <!-- 页面进度条 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-progress@latest/dist/progress.min.js"></script>
-  <!-- 在原有的script后面添加这些 -->
-
-<!-- 1. 侧边栏折叠插件 -->
-<script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.js"></script>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css">
-
-<!-- 2. 增强的侧边栏插件（支持多级嵌套） -->
-<script src="//cdn.jsdelivr.net/npm/docsify-sidebar-fold/dist/docsify-sidebar-fold.min.js"></script>
-
-<!-- 3. 侧边栏显示插件 -->
-<script src="//cdn.jsdelivr.net/npm/docsify-sidebar"></script>
+        
+        // 初始化文件树
+        function initFileTree() {
+            const fileTree = document.querySelector('.file-tree');
+            
+            // 模拟文档结构 - 你可以根据实际情况修改
+            const treeData = [
+                {
+                    name: 'docs',
+                    type: 'folder',
+                    children: [
+                        {
+                            name: '判断推理',
+                            type: 'folder',
+                            children: [
+                                { name: '一般归因.md', type: 'file', path: '#/判断推理/一般归因' },
+                                { name: '对比实验归因.md', type: 'file', path: '#/判断推理/对比实验归因' },
+                                { name: '时间对比归因.md', type: 'file', path: '#/判断推理/时间对比归因' }
+                            ]
+                        },
+                        { name: '定义判断.md', type: 'file', path: '#/定义判断' },
+                        { name: '类比推理.md', type: 'file', path: '#/类比推理' },
+                        { name: '图形推理.md', type: 'file', path: '#/图形推理' },
+                        { name: '平面图推.md', type: 'file', path: '#/平面图推' }
+                    ]
+                },
+                { name: 'README.md', type: 'file', path: '#/' }
+            ];
+            
+            // 生成文件树HTML
+            fileTree.innerHTML = generateFileTreeHTML(treeData);
+            
+            // 添加文件夹折叠功能
+            document.querySelectorAll('.folder.collapsible').forEach(folder => {
+                folder.addEventListener('click', function(e) {
+                    if (e.target.tagName === 'A') return; // 点击链接不折叠
+                    this.classList.toggle('collapsed');
+                });
+            });
+            
+            // 添加文件点击事件
+            document.querySelectorAll('.file-tree a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // 更新当前活动文件
+                    document.querySelectorAll('.file-tree li.active').forEach(li => {
+                        li.classList.remove('active');
+                    });
+                    this.parentElement.classList.add('active');
+                });
+            });
+        }
+        
+        // 生成文件树HTML
+        function generateFileTreeHTML(items, level = 0) {
+            let html = '';
+            
+            items.forEach(item => {
+                if (item.type === 'folder') {
+                    html += `
+                        <li>
+                            <div class="folder collapsible ${level === 0 ? '' : 'collapsed'}">
+                                ${item.name}
+                            </div>
+                            <ul>
+                                ${generateFileTreeHTML(item.children || [], level + 1)}
+                            </ul>
+                        </li>
+                    `;
+                } else if (item.type === 'file') {
+                    html += `
+                        <li class="file">
+                            <a href="${item.path}">${item.name}</a>
+                        </li>
+                    `;
+                }
+            });
+            
+            return html;
+        }
+        
+        // 更新页面大纲
+        function updatePageOutline() {
+            const outlineContainer = document.querySelector('.page-outline');
+            const headings = document.querySelectorAll('.markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4, .markdown-section h5, .markdown-section h6');
+            
+            if (headings.length === 0) {
+                outlineContainer.innerHTML = '<li style="color: #999; padding: 10px;">此页面没有标题</li>';
+                return;
+            }
+            
+            let outlineHTML = '';
+            
+            headings.forEach((heading, index) => {
+                const level = parseInt(heading.tagName.substring(1));
+                const text = heading.textContent;
+                const id = heading.id || `heading-${index}`;
+                
+                // 如果没有id，给heading添加一个
+                if (!heading.id) {
+                    heading.id = id;
+                }
+                
+                outlineHTML += `
+                    <li class="outline-h${level}">
+                        <a href="#${id}">${text}</a>
+                    </li>
+                `;
+            });
+            
+            outlineContainer.innerHTML = outlineHTML;
+            
+            // 添加大纲点击事件
+            document.querySelectorAll('.page-outline a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        // 滚动到目标位置
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 高亮当前大纲项
+                        document.querySelectorAll('.page-outline li.active').forEach(li => {
+                            li.classList.remove('active');
+                        });
+                        this.parentElement.classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        // 高亮当前文件
+        function highlightCurrentFile() {
+            const currentPath = window.location.hash;
+            document.querySelectorAll('.file-tree a').forEach(link => {
+                link.parentElement.classList.remove('active');
+                if (link.getAttribute('href') === currentPath || 
+                    (currentPath === '#/' && link.getAttribute('href') === '#/')) {
+                    link.parentElement.classList.add('active');
+                    
+                    // 展开父级文件夹
+                    let parent = link.parentElement;
+                    while (parent) {
+                        const folder = parent.querySelector('.folder.collapsible');
+                        if (folder && folder.classList.contains('collapsed')) {
+                            folder.classList.remove('collapsed');
+                        }
+                        parent = parent.parentElement.closest('li');
+                    }
+                }
+            });
+        }
+        
+        // 监听页面滚动，更新大纲高亮
+        function initScrollSpy() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        document.querySelectorAll('.page-outline li.active').forEach(li => {
+                            li.classList.remove('active');
+                        });
+                        const correspondingLink = document.querySelector(`.page-outline a[href="#${id}"]`);
+                        if (correspondingLink) {
+                            correspondingLink.parentElement.classList.add('active');
+                        }
+                    }
+                });
+            }, {
+                rootMargin: '-80px 0px -80% 0px',
+                threshold: 0
+            });
+            
+            // 观察所有标题
+            document.querySelectorAll('.markdown-section h1, .markdown-section h2, .markdown-section h3').forEach(heading => {
+                observer.observe(heading);
+            });
+        }
+        
+        // 页面加载完成后初始化滚动监听
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(initScrollSpy, 1000);
+        });
+    </script>
+    
+    <!-- Docsify核心库 -->
+    <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+    
+    <!-- 搜索插件 -->
+    <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+    
+    <!-- 代码高亮 -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script>
 </body>
 </html>
