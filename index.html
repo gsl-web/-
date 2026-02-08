@@ -2,113 +2,46 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>智能文档系统</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>智能文档阅读器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Font Awesome 图标 -->
+    <!-- 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 代码高亮 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
     
     <style>
-        /* ===== CSS 重置与变量定义 ===== */
+        /* ===== 基础样式 ===== */
         :root {
-            /* 颜色系统 - Vue.js 风格 */
-            --primary-color: #42b883;
-            --primary-dark: #3aa876;
-            --primary-light: #e7f8f1;
-            --secondary-color: #35495e;
-            --secondary-dark: #2c3e50;
-            --secondary-light: #4a657a;
-            
-            /* 背景颜色 */
+            --primary: #0969da;
+            --primary-hover: #1a7f37;
             --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --bg-tertiary: #f1f3f5;
-            --bg-sidebar: #fafbfc;
-            
-            /* 文本颜色 */
-            --text-primary: #2c3e50;
-            --text-secondary: #4a5568;
-            --text-tertiary: #718096;
-            --text-muted: #a0aec0;
-            
-            /* 边框颜色 */
-            --border-color: #e2e8f0;
-            --border-light: #edf2f7;
-            --border-dark: #cbd5e0;
-            
-            /* 状态颜色 */
-            --success-color: #48bb78;
-            --warning-color: #ed8936;
-            --danger-color: #f56565;
-            --info-color: #4299e1;
-            
-            /* 间距 */
-            --spacing-xs: 4px;
-            --spacing-sm: 8px;
-            --spacing-md: 16px;
-            --spacing-lg: 24px;
-            --spacing-xl: 32px;
-            --spacing-2xl: 48px;
-            
-            /* 圆角 */
-            --radius-sm: 4px;
-            --radius-md: 6px;
-            --radius-lg: 8px;
-            --radius-xl: 12px;
-            
-            /* 阴影 */
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.05);
-            
-            /* 侧边栏宽度 */
-            --sidebar-width: 280px;
-            --sidebar-collapsed-width: 60px;
-            
-            /* 动画 */
-            --transition-fast: 150ms ease;
-            --transition-normal: 250ms ease;
-            --transition-slow: 350ms ease;
-            
-            /* 层级颜色 */
-            --level-1-color: var(--text-primary);
-            --level-2-color: var(--text-secondary);
-            --level-3-color: var(--text-tertiary);
-            --level-4-color: var(--text-muted);
-            --level-1-bg: transparent;
-            --level-2-bg: rgba(66, 184, 131, 0.02);
-            --level-3-bg: rgba(66, 184, 131, 0.04);
-            --level-4-bg: rgba(66, 184, 131, 0.06);
+            --bg-secondary: #f6f8fa;
+            --bg-tertiary: #f6f8fa;
+            --border: #d0d7de;
+            --text-primary: #24292f;
+            --text-secondary: #57606a;
+            --text-muted: #6e7781;
+            --sidebar-width: 300px;
+            --radius: 6px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12);
+            --transition: all 0.3s ease;
         }
         
-        /* 暗色主题变量 */
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #1a202c;
-                --bg-secondary: #2d3748;
-                --bg-tertiary: #4a5568;
-                --bg-sidebar: #1e2736;
-                
-                --text-primary: #f7fafc;
-                --text-secondary: #e2e8f0;
-                --text-tertiary: #cbd5e0;
-                --text-muted: #a0aec0;
-                
-                --border-color: #4a5568;
-                --border-light: #2d3748;
-                --border-dark: #718096;
-                
-                --level-1-bg: transparent;
-                --level-2-bg: rgba(66, 184, 131, 0.05);
-                --level-3-bg: rgba(66, 184, 131, 0.08);
-                --level-4-bg: rgba(66, 184, 131, 0.12);
+                --primary: #58a6ff;
+                --bg-primary: #0d1117;
+                --bg-secondary: #161b22;
+                --bg-tertiary: #21262d;
+                --border: #30363d;
+                --text-primary: #c9d1d9;
+                --text-secondary: #8b949e;
+                --text-muted: #6e7681;
             }
         }
         
-        /* ===== 全局样式 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -116,25 +49,25 @@
         }
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            font-size: 15px;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
             color: var(--text-primary);
-            background-color: var(--bg-primary);
-            overflow-x: hidden;
+            background: var(--bg-primary);
+            transition: var(--transition);
         }
         
-        /* ===== 布局容器 ===== */
+        /* ===== 布局 ===== */
         .app-container {
             display: flex;
             min-height: 100vh;
         }
         
-        /* ===== 侧边栏样式 ===== */
+        /* ===== 侧边栏 ===== */
         .sidebar {
             width: var(--sidebar-width);
-            background-color: var(--bg-sidebar);
-            border-right: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             position: fixed;
@@ -142,98 +75,54 @@
             left: 0;
             bottom: 0;
             z-index: 100;
-            transition: width var(--transition-normal);
             overflow: hidden;
         }
         
-        .sidebar.collapsed {
-            width: var(--sidebar-collapsed-width);
-        }
-        
-        /* 侧边栏头部 */
         .sidebar-header {
-            padding: var(--spacing-lg) var(--spacing-md);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-            background-color: var(--bg-sidebar);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-tertiary);
         }
         
         .sidebar-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary-color);
             display: flex;
             align-items: center;
-            gap: var(--spacing-sm);
-            white-space: nowrap;
-            overflow: hidden;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
         
-        .sidebar.collapsed .sidebar-title span {
-            display: none;
+        .sidebar-title i {
+            color: var(--primary);
         }
         
-        .sidebar-toggle {
-            background: none;
-            border: none;
-            color: var(--text-tertiary);
-            cursor: pointer;
-            padding: var(--spacing-xs);
-            border-radius: var(--radius-md);
-            transition: all var(--transition-fast);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-        }
-        
-        .sidebar-toggle:hover {
-            color: var(--primary-color);
-            background-color: var(--bg-tertiary);
-        }
-        
-        /* 侧边栏内容区域 */
         .sidebar-content {
             flex: 1;
             overflow-y: auto;
-            padding: var(--spacing-md) 0;
-            scrollbar-width: thin;
-            scrollbar-color: var(--border-color) transparent;
+            padding: 16px 0;
         }
         
-        .sidebar-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .sidebar-content::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .sidebar-content::-webkit-scrollbar-thumb {
-            background-color: var(--border-color);
-            border-radius: 20px;
-        }
-        
-        /* ===== 自动生成的侧边栏树 ===== */
-        .sidebar-tree {
+        /* ===== 文件树样式 ===== */
+        .file-tree {
             list-style: none;
             padding: 0;
             margin: 0;
         }
         
-        .sidebar-tree ul {
+        .file-tree ul {
             list-style: none;
             padding-left: 0;
             margin: 0;
             overflow: hidden;
-            transition: max-height var(--transition-normal);
+            max-height: 0;
+            transition: max-height 0.3s ease;
         }
         
-        /* 树节点 */
+        .file-tree ul.expanded {
+            max-height: 2000px;
+        }
+        
         .tree-node {
             position: relative;
         }
@@ -241,285 +130,298 @@
         .tree-item {
             display: flex;
             align-items: center;
-            padding: var(--spacing-sm) var(--spacing-md);
+            padding: 6px 20px;
+            cursor: pointer;
+            transition: var(--transition);
             color: var(--text-secondary);
             text-decoration: none;
-            transition: all var(--transition-fast);
-            position: relative;
-            border-left: 3px solid transparent;
             user-select: none;
-            cursor: pointer;
-            gap: var(--spacing-sm);
-            min-height: 40px;
         }
         
         .tree-item:hover {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
+            background: var(--bg-tertiary);
         }
         
         .tree-item.active {
-            background-color: var(--primary-light);
-            color: var(--primary-color);
-            border-left-color: var(--primary-color);
+            background: rgba(9, 105, 218, 0.1);
+            color: var(--primary);
+            font-weight: 500;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .tree-item.folder {
+            color: var(--text-primary);
             font-weight: 500;
         }
         
-        .tree-item.active .tree-icon {
-            color: var(--primary-color);
+        .tree-item.folder.collapsed .folder-icon i:last-child {
+            transform: rotate(-90deg);
         }
         
-        /* 层级样式 */
-        .tree-item[data-level="0"] {
-            padding-left: var(--spacing-md);
-            font-weight: 700;
+        .tree-icon {
+            width: 20px;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tree-item .tree-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* 层级缩进 */
+        .tree-item[data-level="0"] { padding-left: 20px; }
+        .tree-item[data-level="1"] { padding-left: 36px; font-size: 15px; }
+        .tree-item[data-level="2"] { padding-left: 52px; font-size: 14px; color: var(--text-muted); }
+        .tree-item[data-level="3"] { padding-left: 68px; font-size: 13px; color: var(--text-muted); }
+        
+        /* ===== 大纲样式 ===== */
+        .outline-container {
+            display: none;
+            padding: 16px 20px;
+        }
+        
+        .outline-container.active {
+            display: block;
+        }
+        
+        .outline-title {
             font-size: 14px;
-            color: var(--level-1-color);
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            background-color: var(--level-1-bg);
         }
         
-        .tree-item[data-level="1"] {
-            padding-left: calc(var(--spacing-md) + 8px);
-            font-weight: 600;
-            color: var(--level-1-color);
-            background-color: var(--level-1-bg);
+        .outline-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
         
-        .tree-item[data-level="2"] {
-            padding-left: calc(var(--spacing-md) + 24px);
-            color: var(--level-2-color);
-            background-color: var(--level-2-bg);
+        .outline-item {
+            margin-bottom: 4px;
         }
         
-        .tree-item[data-level="3"] {
-            padding-left: calc(var(--spacing-md) + 40px);
-            color: var(--level-3-color);
+        .outline-item a {
+            display: block;
+            padding: 4px 0 4px 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
             font-size: 14px;
-            background-color: var(--level-3-bg);
+            transition: var(--transition);
+            border-left: 2px solid transparent;
         }
         
-        .tree-item[data-level="4"] {
-            padding-left: calc(var(--spacing-md) + 56px);
-            color: var(--level-4-color);
-            font-size: 13px;
-            background-color: var(--level-4-bg);
+        .outline-item a:hover {
+            color: var(--primary);
+            border-left-color: var(--primary);
         }
         
-        .sidebar.collapsed .tree-item {
-            padding-left: var(--spacing-md);
-            padding-right: var(--spacing-md);
-            justify-content: center;
-        }
-        
-        .sidebar.collapsed .tree-item span {
-            display: none;
-        }
-        
-        /* 树图标 */
-        .tree-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            color: var(--text-tertiary);
-            transition: all var(--transition-fast);
-            flex-shrink: 0;
-        }
-        
-        .tree-item.has-children > .tree-icon {
-            cursor: pointer;
-        }
-        
-        .tree-item.has-children.collapsed > .tree-icon i:last-child {
-            transform: rotate(-90deg);
-        }
-        
-        /* 折叠指示器 */
-        .tree-arrow {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 16px;
-            height: 16px;
-            transition: transform var(--transition-fast);
-            flex-shrink: 0;
-        }
-        
-        .tree-item.has-children.collapsed .tree-arrow {
-            transform: rotate(-90deg);
-        }
-        
-        .sidebar.collapsed .tree-arrow {
-            display: none;
-        }
-        
-        /* 徽章 */
-        .tree-badge {
-            font-size: 11px;
-            padding: 2px 6px;
-            border-radius: 10px;
-            background-color: var(--bg-tertiary);
-            color: var(--text-tertiary);
-            margin-left: auto;
+        .outline-item.active a {
+            color: var(--primary);
             font-weight: 500;
+            border-left-color: var(--primary);
+            background: rgba(9, 105, 218, 0.05);
         }
         
-        .sidebar.collapsed .tree-badge {
-            display: none;
+        /* 大纲层级 */
+        .outline-h1 { padding-left: 0px; font-size: 15px; font-weight: 600; }
+        .outline-h2 { padding-left: 12px; font-size: 14px; }
+        .outline-h3 { padding-left: 24px; font-size: 13px; color: var(--text-muted); }
+        .outline-h4 { padding-left: 36px; font-size: 12px; color: var(--text-muted); }
+        
+        /* ===== 标签页 ===== */
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-tertiary);
         }
         
-        /* ===== 主内容区域 ===== */
+        .sidebar-tab {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+        
+        .sidebar-tab:hover {
+            color: var(--text-primary);
+        }
+        
+        .sidebar-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: var(--bg-secondary);
+        }
+        
+        /* ===== 主内容区 ===== */
         .main-content {
             flex: 1;
             margin-left: var(--sidebar-width);
-            padding: var(--spacing-xl);
+            padding: 40px 48px;
             max-width: 900px;
-            transition: margin-left var(--transition-normal);
+            min-width: 0;
         }
         
-        .sidebar.collapsed ~ .main-content {
-            margin-left: var(--sidebar-collapsed-width);
-        }
-        
-        /* 内容头部 */
         .content-header {
-            margin-bottom: var(--spacing-xl);
-            padding-bottom: var(--spacing-lg);
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
         }
         
         .content-title {
             font-size: 32px;
             font-weight: 800;
+            margin-bottom: 8px;
             color: var(--text-primary);
-            margin-bottom: var(--spacing-sm);
-            line-height: 1.2;
         }
         
         .content-subtitle {
             font-size: 18px;
             color: var(--text-secondary);
             font-weight: 400;
-            line-height: 1.5;
         }
         
         /* Markdown 内容样式 */
-        .markdown-content {
+        .markdown-body {
+            font-size: 16px;
             line-height: 1.7;
         }
         
-        .markdown-content h1 {
+        .markdown-body h1 {
             font-size: 28px;
             font-weight: 700;
-            margin: var(--spacing-2xl) 0 var(--spacing-lg);
-            color: var(--text-primary);
-            padding-bottom: var(--spacing-sm);
-            border-bottom: 1px solid var(--border-color);
+            margin: 48px 0 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
         }
         
-        .markdown-content h2 {
+        .markdown-body h2 {
             font-size: 24px;
             font-weight: 600;
-            margin: var(--spacing-xl) 0 var(--spacing-md);
-            color: var(--text-primary);
+            margin: 40px 0 20px;
         }
         
-        .markdown-content h3 {
+        .markdown-body h3 {
             font-size: 20px;
             font-weight: 600;
-            margin: var(--spacing-lg) 0 var(--spacing-sm);
-            color: var(--text-primary);
+            margin: 32px 0 16px;
         }
         
-        .markdown-content h4 {
+        .markdown-body h4 {
             font-size: 18px;
             font-weight: 600;
-            margin: var(--spacing-lg) 0 var(--spacing-sm);
-            color: var(--text-secondary);
+            margin: 24px 0 12px;
         }
         
-        .markdown-content p {
-            margin-bottom: var(--spacing-lg);
-            color: var(--text-secondary);
+        .markdown-body p {
+            margin-bottom: 20px;
         }
         
-        .markdown-content ul, .markdown-content ol {
-            margin-bottom: var(--spacing-lg);
-            padding-left: var(--spacing-xl);
-            color: var(--text-secondary);
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 20px;
+            padding-left: 32px;
         }
         
-        .markdown-content li {
-            margin-bottom: var(--spacing-sm);
+        .markdown-body li {
+            margin-bottom: 8px;
         }
         
-        .markdown-content code {
+        .markdown-body code {
             font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
             font-size: 14px;
             padding: 2px 6px;
-            background-color: var(--bg-tertiary);
-            color: var(--primary-color);
-            border-radius: var(--radius-sm);
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            color: var(--primary);
         }
         
-        .markdown-content pre {
-            background-color: var(--bg-secondary);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
+        .markdown-body pre {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
             overflow-x: auto;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
         }
         
-        .markdown-content pre code {
-            background-color: transparent;
+        .markdown-body pre code {
+            background: none;
             padding: 0;
-            color: var(--text-primary);
+            color: inherit;
         }
         
-        .markdown-content blockquote {
-            border-left: 4px solid var(--primary-color);
-            padding: var(--spacing-md) var(--spacing-lg);
-            margin: var(--spacing-lg) 0;
-            background-color: var(--bg-tertiary);
-            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        .markdown-body blockquote {
+            border-left: 4px solid var(--primary);
+            padding: 12px 20px;
+            margin: 20px 0;
+            background: var(--bg-tertiary);
+            border-radius: 0 8px 8px 0;
             color: var(--text-secondary);
         }
         
-        .markdown-content table {
+        .markdown-body table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: var(--spacing-lg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
             overflow: hidden;
         }
         
-        .markdown-content th {
-            background-color: var(--bg-tertiary);
+        .markdown-body th {
+            background: var(--bg-tertiary);
             font-weight: 600;
             text-align: left;
-            padding: var(--spacing-md);
-            border-bottom: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
         }
         
-        .markdown-content td {
-            padding: var(--spacing-md);
-            border-bottom: 1px solid var(--border-light);
+        .markdown-body td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
         }
         
-        .markdown-content tr:last-child td {
+        .markdown-body tr:last-child td {
             border-bottom: none;
         }
         
-        /* ===== 响应式设计 ===== */
+        /* ===== 加载状态 ===== */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        
+        .loading i {
+            font-size: 32px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .loading p {
+            font-size: 14px;
+        }
+        
+        /* ===== 移动端适配 ===== */
         @media (max-width: 1024px) {
             .main-content {
-                padding: var(--spacing-lg);
+                padding: 32px;
                 max-width: 100%;
             }
         }
@@ -528,7 +430,7 @@
             .sidebar {
                 transform: translateX(-100%);
                 width: 280px;
-                box-shadow: var(--shadow-lg);
+                box-shadow: 2px 0 20px rgba(0,0,0,0.1);
             }
             
             .sidebar.show {
@@ -537,77 +439,30 @@
             
             .main-content {
                 margin-left: 0;
-                padding: var(--spacing-md);
+                padding: 24px;
             }
             
             .mobile-toggle {
                 display: flex !important;
             }
-            
-            .content-title {
-                font-size: 24px;
-            }
-            
-            .content-subtitle {
-                font-size: 16px;
-            }
         }
         
-        /* ===== 移动端切换按钮 ===== */
         .mobile-toggle {
             display: none;
             position: fixed;
-            top: var(--spacing-md);
-            left: var(--spacing-md);
-            z-index: 101;
-            background-color: var(--primary-color);
+            top: 16px;
+            left: 16px;
+            z-index: 99;
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: var(--radius-md);
+            border-radius: 50%;
             width: 40px;
             height: 40px;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: var(--shadow-md);
-        }
-        
-        /* ===== 暗色模式切换 ===== */
-        .theme-toggle {
-            position: fixed;
-            bottom: var(--spacing-md);
-            right: var(--spacing-md);
-            z-index: 100;
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-md);
-            transition: all var(--transition-normal);
-        }
-        
-        .theme-toggle:hover {
-            transform: scale(1.1);
-            background-color: var(--bg-tertiary);
-        }
-        
-        /* ===== 空状态 ===== */
-        .empty-state {
-            text-align: center;
-            padding: var(--spacing-2xl) var(--spacing-xl);
-            color: var(--text-muted);
-        }
-        
-        .empty-state i {
-            font-size: 48px;
-            margin-bottom: var(--spacing-md);
-            opacity: 0.5;
+            box-shadow: var(--shadow);
         }
         
         /* ===== 动画 ===== */
@@ -617,12 +472,7 @@
         }
         
         .fade-in {
-            animation: fadeIn var(--transition-normal);
-        }
-        
-        /* ===== 工具类 ===== */
-        .hidden {
-            display: none !important;
+            animation: fadeIn 0.3s ease;
         }
     </style>
 </head>
@@ -632,968 +482,517 @@
         <i class="fas fa-bars"></i>
     </button>
     
-    <!-- 暗色模式切换按钮 -->
-    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
-        <i class="fas fa-moon"></i>
-    </button>
-    
     <!-- 主应用容器 -->
     <div class="app-container">
         <!-- 侧边栏 -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-title">
-                    <i class="fas fa-book-open"></i>
-                    <span>智能文档</span>
+                    <i class="fas fa-book"></i>
+                    <span>文档阅读器</span>
                 </div>
-                <button class="sidebar-toggle" id="sidebarToggle" aria-label="折叠侧边栏">
-                    <i class="fas fa-chevron-left"></i>
+            </div>
+            
+            <!-- 标签页 -->
+            <div class="sidebar-tabs">
+                <button class="sidebar-tab active" data-tab="files">
+                    <i class="fas fa-folder"></i>
+                    <span>文件</span>
+                </button>
+                <button class="sidebar-tab" data-tab="outline">
+                    <i class="fas fa-list"></i>
+                    <span>大纲</span>
                 </button>
             </div>
             
+            <!-- 侧边栏内容 -->
             <div class="sidebar-content">
-                <ul class="sidebar-tree" id="sidebarTree">
-                    <!-- 侧边栏树将在此动态生成 -->
-                </ul>
+                <!-- 文件树 -->
+                <ul class="file-tree" id="fileTree"></ul>
+                
+                <!-- 大纲 -->
+                <div class="outline-container" id="outlineContainer">
+                    <div class="outline-title">页面大纲</div>
+                    <ul class="outline-list" id="outlineList"></ul>
+                </div>
             </div>
         </aside>
         
         <!-- 主内容区域 -->
         <main class="main-content" id="mainContent">
             <div class="content-header">
-                <h1 class="content-title" id="pageTitle">欢迎使用智能文档系统</h1>
-                <p class="content-subtitle" id="pageSubtitle">一个现代化的、自动生成的文档系统</p>
+                <h1 class="content-title" id="pageTitle">文档阅读器</h1>
+                <p class="content-subtitle" id="pageSubtitle">自动加载并显示您的文档</p>
             </div>
             
-            <div class="markdown-content" id="contentContainer">
-                <!-- 内容将在此动态生成 -->
-                <div class="empty-state">
-                    <i class="fas fa-file-alt"></i>
-                    <p>选择左侧的文档开始阅读</p>
+            <div id="contentContainer">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>正在加载文档...</p>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        // ===== 文档数据配置 =====
-        // 这是一个示例文档结构，您可以修改它来匹配您的文档
-        const DOCUMENTATION_STRUCTURE = {
-            // 文档根目录
-            root: {
-                id: 'root',
-                title: '文档目录',
-                type: 'folder',
-                expanded: true,
-                children: [
-                    {
-                        id: 'getting-started',
-                        title: '快速开始',
-                        type: 'folder',
-                        icon: 'fas fa-rocket',
-                        color: '#4299e1',
-                        expanded: true,
-                        children: [
-                            {
-                                id: 'introduction',
-                                title: '介绍',
-                                type: 'document',
-                                icon: 'fas fa-info-circle',
-                                content: `# 介绍
-
-## 什么是智能文档系统？
-
-智能文档系统是一个现代化的、单文件的文档解决方案，具有以下特性：
-
-### 主要特性
-
-- **自动生成侧边栏**：根据配置自动生成带有层级结构的侧边栏
-- **可折叠层级**：支持文件夹的展开和折叠，节省空间
-- **现代化 UI**：Vue.js 风格的界面设计
-- **响应式设计**：适配桌面、平板和手机设备
-- **暗色/亮色主题**：自动跟随系统主题，支持手动切换
-- **代码高亮**：内置代码语法高亮显示
-- **无需构建**：单文件即可运行，无需复杂的构建流程
-
-### 使用场景
-
-- 个人知识库
-- 项目文档
-- 学习笔记
-- API 文档
-- 技术文档
-
-## 开始使用
-
-要使用本系统，您只需要：
-
-1. 修改文档结构配置
-2. 添加您的文档内容
-3. 部署到任意静态服务器
-
-就是这么简单！`
-                            },
-                            {
-                                id: 'installation',
-                                title: '安装指南',
-                                type: 'document',
-                                icon: 'fas fa-download',
-                                content: `# 安装指南
-
-## 系统要求
-
-在开始之前，请确保您的环境满足以下要求：
-
-### 基本要求
-- 现代浏览器（Chrome 80+, Firefox 72+, Safari 13+）
-- 支持 JavaScript
-- 支持 CSS Grid 和 Flexbox
-
-### 可选要求
-- Node.js（用于本地开发）
-- Git（用于版本控制）
-
-## 安装步骤
-
-### 方法一：直接使用（推荐）
-
-1. 复制本 \`index.html\` 文件
-2. 修改文档结构配置
-3. 上传到您的服务器
-
-### 方法二：GitHub Pages 部署
-
-\`\`\`bash
-# 克隆仓库（如果有）
-git clone https://github.com/yourusername/your-repo.git
-
-# 复制 index.html 到仓库根目录
-cp index.html your-repo/
-
-# 提交并推送
-cd your-repo
-git add index.html
-git commit -m "添加智能文档系统"
-git push
-\`\`\`
-
-### 方法三：本地开发
-
-1. 将 \`index.html\` 保存到本地目录
-2. 用浏览器打开即可查看效果
-3. 使用代码编辑器修改内容
-
-## 验证安装
-
-打开浏览器，访问您的文档地址，如果看到类似下面的界面，说明安装成功：
-
-✅ 侧边栏显示文档结构
-✅ 主内容区显示文档内容
-✅ 可以点击侧边栏切换文档
-
-## 常见问题
-
-### Q: 页面显示空白怎么办？
-A: 检查浏览器控制台是否有错误，确保 JavaScript 被正确加载。
-
-### Q: 如何修改文档结构？
-A: 编辑 \`DOCUMENTATION_STRUCTURE\` 配置对象，添加您的文档内容。
-
-### Q: 支持 Markdown 吗？
-A: 是的，文档内容支持基本的 Markdown 语法。`
-                            },
-                            {
-                                id: 'configuration',
-                                title: '配置说明',
-                                type: 'document',
-                                icon: 'fas fa-cog',
-                                content: `# 配置说明
-
-## 配置文件结构
-
-智能文档系统的配置全部集中在 \`DOCUMENTATION_STRUCTURE\` 对象中。
-
-### 基本结构
-
-\`\`\`javascript
-const DOCUMENTATION_STRUCTURE = {
-    root: {
-        id: 'root',
-        title: '文档目录',
-        type: 'folder',
-        expanded: true,
-        children: [
-            // 文档项或文件夹
-        ]
-    }
-};
-\`\`\`
-
-## 文档项属性
-
-### 通用属性
-
-| 属性 | 类型 | 说明 | 示例 |
-|------|------|------|------|
-| \`id\` | string | 唯一标识符 | 'getting-started' |
-| \`title\` | string | 显示标题 | '快速开始' |
-| \`type\` | string | 类型：'folder' 或 'document' | 'folder' |
-| \`icon\` | string | FontAwesome 图标类 | 'fas fa-rocket' |
-| \`color\` | string | 图标颜色（十六进制） | '#4299e1' |
-
-### 文件夹特有属性
-
-| 属性 | 类型 | 说明 | 示例 |
-|------|------|------|------|
-| \`expanded\` | boolean | 初始是否展开 | true |
-| \`children\` | array | 子项数组 | [] |
-
-### 文档特有属性
-
-| 属性 | 类型 | 说明 | 示例 |
-|------|------|------|------|
-| \`content\` | string | Markdown 格式的内容 | '# 标题\\n\\n内容' |
-
-## 配置示例
-
-### 简单的文档结构
-
-\`\`\`javascript
-{
-    id: 'api',
-    title: 'API 文档',
-    type: 'folder',
-    icon: 'fas fa-code',
-    expanded: true,
-    children: [
-        {
-            id: 'user-api',
-            title: '用户接口',
-            type: 'document',
-            icon: 'fas fa-users',
-            content: '# 用户接口文档...'
-        },
-        {
-            id: 'product-api',
-            title: '产品接口',
-            type: 'document',
-            icon: 'fas fa-box',
-            content: '# 产品接口文档...'
-        }
-    ]
-}
-\`\`\`
-
-### 多级嵌套结构
-
-\`\`\`javascript
-{
-    id: 'tutorials',
-    title: '教程',
-    type: 'folder',
-    expanded: true,
-    children: [
-        {
-            id: 'beginner',
-            title: '初级教程',
-            type: 'folder',
-            expanded: false,
-            children: [
-                {
-                    id: 'lesson-1',
-                    title: '第一课',
-                    type: 'document',
-                    content: '# 第一课内容...'
-                }
-            ]
-        }
-    ]
-}
-\`\`\`
-
-## 样式配置
-
-您还可以通过修改 CSS 变量来自定义系统的外观：
-
-\`\`\`css
-:root {
-    --primary-color: #42b883; /* Vue.js 绿色 */
-    --sidebar-width: 280px;   /* 侧边栏宽度 */
-    /* 更多变量... */
-}
-\`\`\`
-
-## 高级配置
-
-### 动态加载内容
-
-对于大型文档，您可以动态加载内容：
-
-\`\`\`javascript
-content: async () => {
-    const response = await fetch('document.md');
-    return await response.text();
-}
-\`\`\`
-
-### 自定义图标
-
-您可以使用任何 FontAwesome 图标：
-
-- 常规图标：'fas fa-xxx'
-- 品牌图标：'fab fa-xxx'
-- 线框图标：'far fa-xxx'`
-                            }
-                        ]
-                    },
-                    {
-                        id: 'guide',
-                        title: '使用指南',
-                        type: 'folder',
-                        icon: 'fas fa-book',
-                        color: '#48bb78',
-                        expanded: false,
-                        children: [
-                            {
-                                id: 'sidebar-usage',
-                                title: '侧边栏使用',
-                                type: 'document',
-                                icon: 'fas fa-bars',
-                                content: `# 侧边栏使用指南
-
-## 侧边栏功能
-
-智能文档系统的侧边栏提供了以下功能：
-
-### 1. 文档导航
-- 点击文档标题打开对应文档
-- 使用键盘方向键导航
-- 支持快捷键操作
-
-### 2. 折叠与展开
-- 点击文件夹图标展开/折叠
-- 使用侧边栏顶部的折叠按钮
-- 自动记住折叠状态
-
-### 3. 搜索功能
-- 快速定位文档
-- 支持模糊搜索
-- 实时显示结果
-
-## 操作指南
-
-### 鼠标操作
-- **单击文档项**：打开文档
-- **单击文件夹图标**：展开/折叠文件夹
-- **右键菜单**：更多操作（待实现）
-
-### 键盘快捷键
-
-| 快捷键 | 功能 | 说明 |
-|--------|------|------|
-| \`Ctrl/Cmd + F\` | 搜索 | 打开搜索框 |
-| \`↑\` / \`↓\` | 导航 | 上下移动焦点 |
-| \`→\` | 展开 | 展开当前文件夹 |
-| \`←\` | 折叠 | 折叠当前文件夹 |
-| \`Enter\` | 打开 | 打开当前文档 |
-
-### 触摸操作（移动端）
-- **轻点**：打开文档
-- **长按**：显示上下文菜单
-- **滑动**：滚动侧边栏
-
-## 自定义侧边栏
-
-### 修改层级颜色
-您可以通过 CSS 变量修改不同层级的颜色：
-
-\`\`\`css
-.tree-item[data-level="1"] {
-    color: var(--level-1-color);
-    /* 其他样式... */
-}
-\`\`\`
-
-### 添加状态指示器
-您可以为文档项添加状态指示器：
-
-- 新文档
-- 已更新
-- 草稿状态
-- 重要标记
-
-### 调整布局
-侧边栏支持两种布局模式：
-1. **完整模式**：显示完整标题和图标
-2. **紧凑模式**：只显示图标
-
-## 最佳实践
-
-### 1. 合理组织文档结构
-- 避免过深的层级（建议不超过 4 级）
-- 使用有意义的文件夹名称
-- 保持逻辑清晰
-
-### 2. 优化性能
-- 对于大型文档，使用懒加载
-- 合理使用折叠功能
-- 避免单个文档过长
-
-### 3. 用户体验
-- 为常用文档添加图标
-- 使用一致的颜色编码
-- 提供清晰的视觉反馈
-
-## 常见问题
-
-### Q: 侧边栏不显示怎么办？
-A: 检查配置是否正确，查看浏览器控制台是否有错误。
-
-### Q: 如何添加新的文档？
-A: 在配置数组中添加新的文档项，然后刷新页面。
-
-### Q: 支持外部链接吗？
-A: 是的，您可以为文档项添加 \`external: true\` 属性来支持外部链接。`
-                            },
-                            {
-                                id: 'content-formatting',
-                                title: '内容格式',
-                                type: 'document',
-                                icon: 'fas fa-edit',
-                                content: `# 内容格式指南
-
-## 支持的 Markdown 语法
-
-### 标题
-
-\`\`\`markdown
-# 一级标题
-## 二级标题
-### 三级标题
-#### 四级标题
-##### 五级标题
-###### 六级标题
-\`\`\`
-
-### 文本样式
-
-\`\`\`markdown
-**粗体文本**
-*斜体文本*
-~~删除线文本~~
-\`内联代码\`
-
-> 引用文本
->
-> 可以有多行
-\`\`\`
-
-### 列表
-
-\`\`\`markdown
-- 无序列表项 1
-- 无序列表项 2
-  - 嵌套列表项
-
-1. 有序列表项 1
-2. 有序列表项 2
-   1. 嵌套有序项
-\`\`\`
-
-### 代码块
-
-\`\`\`javascript
-// JavaScript 代码
-function hello() {
-    console.log('Hello, World!');
-}
-\`\`\`
-
-\`\`\`python
-# Python 代码
-def hello():
-    print("Hello, World!")
-\`\`\`
-
-\`\`\`bash
-# Shell 命令
-npm install
-npm run dev
-\`\`\`
-
-### 链接和图片
-
-\`\`\`markdown
-[链接文本](https://example.com)
-
-![图片描述](https://example.com/image.jpg)
-\`\`\`
-
-### 表格
-
-\`\`\`markdown
-| 列1 | 列2 | 列3 |
-|-----|-----|-----|
-| 内容1 | 内容2 | 内容3 |
-| 内容4 | 内容5 | 内容6 |
-\`\`\`
-
-## 扩展功能
-
-### 警告框
-
-\`\`\`markdown
-> **注意**：这是一个重要提示。
->
-> 这里可以写更多内容。
-
-> **警告**：操作不可逆！
->
-> 请谨慎执行。
-
-> **提示**：这是一个有用的提示。
->
-> 可以帮助用户更好地使用系统。
-\`\`\`
-
-### 任务列表
-
-\`\`\`markdown
-- [x] 已完成的任务
-- [ ] 未完成的任务
-- [ ] 另一个任务
-\`\`\`
-
-### 定义列表
-
-\`\`\`markdown
-术语 1
-: 定义 1
-
-术语 2
-: 定义 2a
-: 定义 2b
-\`\`\`
-
-## 高级格式化
-
-### 数学公式（LaTeX）
-
-\`\`\`markdown
-行内公式：$E = mc^2$
-
-块级公式：
-$$\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$$
-\`\`\`
-
-### 流程图和图表
-
-\`\`\`mermaid
-graph TD
-    A[开始] --> B{判断}
-    B -->|是| C[执行操作]
-    B -->|否| D[结束]
-    C --> D
-\`\`\`
-
-### 脚注
-
-\`\`\`markdown
-这是带有脚注的文本[^1]。
-
-[^1]: 这里是脚注的内容。
-\`\`\`
-
-## 样式指南
-
-### 1. 标题使用
-- 每个文档应该有一个一级标题
-- 合理使用层级，不要跳级
-- 标题应该简洁明了
-
-### 2. 代码规范
-- 为代码块指定语言
-- 保持代码整洁
-- 添加必要的注释
-
-### 3. 图片优化
-- 使用合适的图片大小
-- 添加描述性 alt 文本
-- 考虑使用 SVG 格式
-
-### 4. 链接管理
-- 使用有意义的链接文本
-- 避免使用 "点击这里"
-- 定期检查链接有效性
-
-## 内容组织建议
-
-### 文档结构
-1. 简要介绍
-2. 详细内容（分节）
-3. 示例和演示
-4. 常见问题
-5. 相关资源
-
-### 写作风格
-- 使用清晰的语言
-- 避免技术术语过多
-- 保持段落简短
-- 使用列表和表格提高可读性
-
-### 国际化考虑
-- 支持多语言内容
-- 注意日期和数字格式
-- 考虑文化差异
-
-通过遵循这些格式指南，您可以创建出美观、易读的文档内容。`
-                            }
-                        ]
-                    },
-                    {
-                        id: 'api-reference',
-                        title: 'API 参考',
-                        type: 'folder',
-                        icon: 'fas fa-code',
-                        color: '#ed8936',
-                        expanded: false,
-                        children: [
-                            {
-                                id: 'getting-started-api',
-                                title: '入门',
-                                type: 'document',
-                                icon: 'fas fa-play-circle',
-                                badge: '新',
-                                content: '# API 入门指南'
-                            },
-                            {
-                                id: 'authentication',
-                                title: '身份验证',
-                                type: 'document',
-                                icon: 'fas fa-key',
-                                content: '# 身份验证 API'
-                            },
-                            {
-                                id: 'endpoints',
-                                title: '接口端点',
-                                type: 'document',
-                                icon: 'fas fa-network-wired',
-                                badge: '3',
-                                content: '# 接口端点文档'
-                            }
-                        ]
-                    },
-                    {
-                        id: 'examples',
-                        title: '示例',
-                        type: 'folder',
-                        icon: 'fas fa-laptop-code',
-                        color: '#9f7aea',
-                        expanded: false,
-                        children: [
-                            {
-                                id: 'basic-example',
-                                title: '基础示例',
-                                type: 'document',
-                                icon: 'fas fa-star',
-                                content: '# 基础示例文档'
-                            },
-                            {
-                                id: 'advanced-example',
-                                title: '高级示例',
-                                type: 'document',
-                                icon: 'fas fa-rocket',
-                                badge: '高级',
-                                content: '# 高级示例文档'
-                            }
-                        ]
-                    },
-                    {
-                        id: 'faq',
-                        title: '常见问题',
-                        type: 'document',
-                        icon: 'fas fa-question-circle',
-                        color: '#f56565',
-                        content: `# 常见问题
-
-## 一般问题
-
-### Q: 这个系统是免费的吗？
-A: 是的，完全免费且开源，您可以自由使用和修改。
-
-### Q: 需要编程知识吗？
-A: 基本使用不需要编程知识，但自定义配置需要一些 JavaScript 基础。
-
-### Q: 支持移动设备吗？
-A: 是的，完全响应式设计，支持所有现代移动设备。
-
-## 技术问题
-
-### Q: 如何添加新文档？
-A: 在 \`DOCUMENTATION_STRUCTURE\` 配置中添加新的文档项即可。
-
-### Q: 支持 Markdown 吗？
-A: 是的，支持基本的 Markdown 语法，包括标题、列表、代码块等。
-
-### Q: 可以集成到现有网站吗？
-A: 可以，只需将本文件内容嵌入到您的网站中。
-
-### Q: 支持多语言吗？
-A: 目前需要手动配置多语言内容，未来版本可能会添加自动翻译功能。
-
-## 功能问题
-
-### Q: 支持搜索吗？
-A: 当前版本支持基本的文档内搜索，未来会添加全局搜索功能。
-
-### Q: 可以自定义主题吗？
-A: 可以，通过修改 CSS 变量可以轻松自定义颜色、间距等样式。
-
-### Q: 支持导出为 PDF 吗？
-A: 目前不支持直接导出，但您可以使用浏览器的打印功能保存为 PDF。
-
-### Q: 有版本控制功能吗？
-A: 文档版本控制需要通过外部工具（如 Git）实现。
-
-## 部署问题
-
-### Q: 可以部署到 GitHub Pages 吗？
-A: 可以，只需将 \`index.html\` 文件上传到仓库并启用 GitHub Pages 即可。
-
-### Q: 需要服务器吗？
-A: 不需要，这是一个纯静态文件，可以在任何静态文件服务器上运行。
-
-### Q: 支持 CDN 加速吗？
-A: 支持，您可以将文件部署到任何支持静态文件的 CDN。
-
-### Q: 有大小限制吗？
-A: 理论上没有限制，但建议单个文档不要过大以保持良好的性能。
-
-## 故障排除
-
-### Q: 页面显示空白怎么办？
-A: 检查浏览器控制台错误，确保网络连接正常。
-
-### Q: 侧边栏不显示怎么办？
-A: 检查 JavaScript 控制台，确认配置格式正确。
-
-### Q: 内容不更新怎么办？
-A: 尝试清除浏览器缓存，或使用硬刷新（Ctrl+F5）。
-
-### Q: 移动端显示异常怎么办？
-A: 确保使用现代浏览器，并检查是否有自定义 CSS 冲突。
-
-## 获取帮助
-
-如果您遇到其他问题，可以通过以下方式获取帮助：
-
-1. 查看文档配置是否正确
-2. 检查浏览器控制台错误信息
-3. 查阅在线文档
-4. 提交问题到 GitHub 仓库
-
-我们持续改进这个系统，欢迎反馈和建议！`
-                    }
-                ]
-            }
+        // ===== 配置 =====
+        const CONFIG = {
+            // 仓库信息（自动从当前页面获取）
+            repoOwner: window.location.hostname.split('.')[0] || 'GSL-Web',
+            repoName: window.location.pathname.split('/')[1] || '-',
+            branch: 'main',
+            
+            // GitHub API 配置
+            useApi: true,
+            apiBase: 'https://api.github.com/repos',
+            
+            // 本地开发时使用相对路径
+            isLocal: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         };
         
-        // ===== 核心功能实现 =====
-        
-        // 1. 状态管理
+        // ===== 状态管理 =====
         const state = {
-            currentDocument: null,
-            sidebarExpanded: true,
-            theme: 'auto',
-            collapsedFolders: new Set()
+            currentFile: null,
+            currentPath: null,
+            fileTree: null,
+            collapsedFolders: new Set(),
+            activeTab: 'files'
         };
         
-        // 2. 初始化应用
-        function initApp() {
-            // 初始化侧边栏
-            renderSidebar();
-            
-            // 加载初始文档
-            loadInitialDocument();
-            
-            // 绑定事件
-            bindEvents();
-            
-            // 初始化主题
-            initTheme();
-            
-            // 检查移动设备
-            checkMobile();
+        // ===== 核心功能 =====
+        
+        // 1. 初始化应用
+        async function initApp() {
+            try {
+                // 显示加载状态
+                showLoading('正在扫描仓库结构...');
+                
+                // 获取仓库文件结构
+                await loadRepositoryStructure();
+                
+                // 绑定事件
+                bindEvents();
+                
+                // 加载初始文档
+                await loadInitialDocument();
+                
+                // 隐藏加载状态
+                hideLoading();
+                
+            } catch (error) {
+                console.error('初始化失败:', error);
+                showError('无法加载仓库内容，请检查控制台查看详情。');
+            }
         }
         
-        // 3. 渲染侧边栏
-        function renderSidebar() {
-            const sidebarTree = document.getElementById('sidebarTree');
-            sidebarTree.innerHTML = '';
-            
-            // 生成树节点
-            const rootNode = DOCUMENTATION_STRUCTURE.root;
-            const treeHTML = generateTreeHTML(rootNode, 0);
-            sidebarTree.innerHTML = treeHTML;
-            
-            // 恢复折叠状态
-            restoreCollapseState();
-        }
-        
-        // 4. 生成树HTML
-        function generateTreeHTML(node, level) {
-            if (!node.children && node.type !== 'folder') {
-                // 单个文档项
-                return generateDocumentItemHTML(node, level);
+        // 2. 加载仓库结构
+        async function loadRepositoryStructure() {
+            if (CONFIG.isLocal) {
+                // 本地开发模式：使用 fetch API 扫描目录
+                await scanLocalRepository();
+            } else if (CONFIG.useApi) {
+                // GitHub Pages 模式：使用 GitHub API
+                await loadFromGitHubApi();
+            } else {
+                // 备用方案：尝试直接访问文件
+                await scanRepositoryFiles();
             }
             
-            // 文件夹项
-            let html = '';
-            const hasChildren = node.children && node.children.length > 0;
-            const isCollapsed = state.collapsedFolders.has(node.id);
+            // 渲染文件树
+            renderFileTree();
+        }
+        
+        // 3. 从 GitHub API 加载
+        async function loadFromGitHubApi() {
+            const apiUrl = `${CONFIG.apiBase}/${CONFIG.repoOwner}/${CONFIG.repoName}/git/trees/${CONFIG.branch}?recursive=1`;
             
-            html += `
-                <li class="tree-node">
-                    <div class="tree-item ${hasChildren ? 'has-children' : ''} ${isCollapsed ? 'collapsed' : ''}"
-                         data-id="${node.id}"
-                         data-level="${level}"
-                         data-type="${node.type}"
-                         title="${node.title}">
-                        <span class="tree-icon" style="${node.color ? `color: ${node.color}` : ''}">
-                            ${node.icon ? `<i class="${node.icon}"></i>` : '<i class="fas fa-folder"></i>'}
-                        </span>
-                        <span>${node.title}</span>
-                        ${node.badge ? `<span class="tree-badge">${node.badge}</span>` : ''}
-                        ${hasChildren ? '<span class="tree-arrow"><i class="fas fa-chevron-down"></i></span>' : ''}
-                    </div>
-            `;
-            
-            // 子项
-            if (hasChildren && !isCollapsed) {
-                html += '<ul>';
-                node.children.forEach(child => {
-                    html += generateTreeHTML(child, level + 1);
+            try {
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`GitHub API 错误: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // 构建文件树
+                const tree = {
+                    name: 'root',
+                    type: 'folder',
+                    path: '',
+                    children: []
+                };
+                
+                // 处理所有文件
+                data.tree.forEach(item => {
+                    // 只处理 .md 文件和目录
+                    if (item.type === 'blob' && item.path.endsWith('.md')) {
+                        addFileToTree(tree, item.path);
+                    } else if (item.type === 'tree') {
+                        // 添加空目录
+                        addFolderToTree(tree, item.path);
+                    }
                 });
-                html += '</ul>';
+                
+                state.fileTree = tree;
+                
+            } catch (error) {
+                console.warn('GitHub API 加载失败，尝试备用方案:', error);
+                await scanRepositoryFiles();
+            }
+        }
+        
+        // 4. 扫描仓库文件（备用方案）
+        async function scanRepositoryFiles() {
+            // 尝试获取仓库文件列表
+            // 注意：GitHub Pages 默认不提供目录列表
+            // 这里我们尝试预定义的文件结构
+            
+            const tree = {
+                name: 'root',
+                type: 'folder',
+                path: '',
+                children: []
+            };
+            
+            // 尝试加载已知的目录
+            const knownFolders = ['判断推理', '数量关系', '言语理解'];
+            
+            for (const folder of knownFolders) {
+                try {
+                    // 尝试访问文件夹下的 index.md 或 README.md
+                    const testUrl = `${folder}/README.md`;
+                    const response = await fetch(testUrl);
+                    
+                    if (response.ok) {
+                        addFileToTree(tree, testUrl);
+                    }
+                } catch (e) {
+                    // 文件夹可能不存在或没有读取权限
+                }
             }
             
-            html += '</li>';
-            return html;
+            // 总是包含根目录的 README.md
+            addFileToTree(tree, 'README.md');
+            
+            state.fileTree = tree;
         }
         
-        // 5. 生成文档项HTML
-        function generateDocumentItemHTML(doc, level) {
-            const isActive = state.currentDocument === doc.id;
+        // 5. 本地开发扫描
+        async function scanLocalRepository() {
+            const tree = {
+                name: 'root',
+                type: 'folder',
+                path: '',
+                children: []
+            };
             
-            return `
-                <li class="tree-node">
-                    <a class="tree-item ${isActive ? 'active' : ''}"
-                       href="#${doc.id}"
-                       data-id="${doc.id}"
-                       data-level="${level}"
-                       data-type="${doc.type}"
-                       title="${doc.title}">
-                        <span class="tree-icon" style="${doc.color ? `color: ${doc.color}` : ''}">
-                            ${doc.icon ? `<i class="${doc.icon}"></i>` : '<i class="fas fa-file-alt"></i>'}
-                        </span>
-                        <span>${doc.title}</span>
-                        ${doc.badge ? `<span class="tree-badge">${doc.badge}</span>` : ''}
-                    </a>
-                </li>
-            `;
+            // 尝试获取文件列表
+            // 注意：由于浏览器安全限制，我们不能直接读取目录
+            // 这里我们使用一个已知的文件列表
+            
+            const knownFiles = [
+                'README.md',
+                '判断推理/一般归因.md',
+                '判断推理/对比实验归因.md',
+                '数量关系/速算技巧.md',
+                '言语理解/片段阅读.md'
+            ];
+            
+            knownFiles.forEach(filePath => {
+                addFileToTree(tree, filePath);
+            });
+            
+            state.fileTree = tree;
         }
         
-        // 6. 加载文档内容
-        function loadDocument(docId) {
-            const doc = findDocument(DOCUMENTATION_STRUCTURE.root, docId);
+        // 6. 添加文件到树结构
+        function addFileToTree(tree, filePath) {
+            const parts = filePath.split('/');
+            let current = tree;
             
-            if (!doc) {
-                console.error(`文档未找到: ${docId}`);
+            for (let i = 0; i < parts.length; i++) {
+                const part = parts[i];
+                const isFile = i === parts.length - 1;
+                
+                if (isFile) {
+                    // 添加文件
+                    if (!current.children) current.children = [];
+                    
+                    const existing = current.children.find(c => c.name === part);
+                    if (!existing) {
+                        current.children.push({
+                            name: part,
+                            type: 'file',
+                            path: filePath,
+                            fullPath: filePath
+                        });
+                    }
+                } else {
+                    // 添加或查找文件夹
+                    if (!current.children) current.children = [];
+                    
+                    let folder = current.children.find(c => c.name === part && c.type === 'folder');
+                    if (!folder) {
+                        folder = {
+                            name: part,
+                            type: 'folder',
+                            path: parts.slice(0, i + 1).join('/'),
+                            children: []
+                        };
+                        current.children.push(folder);
+                    }
+                    
+                    current = folder;
+                }
+            }
+        }
+        
+        // 7. 添加文件夹到树结构
+        function addFolderToTree(tree, folderPath) {
+            const parts = folderPath.split('/');
+            let current = tree;
+            
+            for (let i = 0; i < parts.length; i++) {
+                const part = parts[i];
+                
+                if (!current.children) current.children = [];
+                
+                let folder = current.children.find(c => c.name === part && c.type === 'folder');
+                if (!folder) {
+                    folder = {
+                        name: part,
+                        type: 'folder',
+                        path: folderPath,
+                        children: []
+                    };
+                    current.children.push(folder);
+                }
+                
+                current = folder;
+            }
+        }
+        
+        // 8. 渲染文件树
+        function renderFileTree() {
+            const fileTree = document.getElementById('fileTree');
+            
+            if (!state.fileTree || !state.fileTree.children) {
+                fileTree.innerHTML = '<div class="loading"><p>暂无文档</p></div>';
                 return;
             }
             
-            // 更新状态
-            state.currentDocument = docId;
-            updateURL(docId);
+            fileTree.innerHTML = generateTreeHTML(state.fileTree, 0);
             
-            // 更新页面标题
-            document.getElementById('pageTitle').textContent = doc.title;
-            document.getElementById('pageSubtitle').textContent = doc.description || '';
+            // 恢复折叠状态
+            restoreFolderState();
             
-            // 渲染内容
-            renderContent(doc.content || '# 文档内容为空');
-            
-            // 更新侧边栏激活状态
-            updateActiveItem();
-            
-            // 确保文档在可视范围内
-            ensureDocumentVisible(docId);
+            // 绑定文件夹点击事件
+            bindFolderEvents();
         }
         
-        // 7. 渲染内容
+        // 9. 生成树HTML
+        function generateTreeHTML(node, level) {
+            if (!node.children || node.children.length === 0) {
+                return '';
+            }
+            
+            let html = '';
+            
+            // 排序：文件夹在前，文件在后，按名称排序
+            const sortedChildren = [...node.children].sort((a, b) => {
+                if (a.type === 'folder' && b.type === 'file') return -1;
+                if (a.type === 'file' && b.type === 'folder') return 1;
+                return a.name.localeCompare(b.name);
+            });
+            
+            sortedChildren.forEach(child => {
+                const isFolder = child.type === 'folder';
+                const isCollapsed = state.collapsedFolders.has(child.path);
+                const isActive = state.currentFile === child.path;
+                
+                if (isFolder) {
+                    html += `
+                        <li class="tree-node">
+                            <div class="tree-item folder ${isCollapsed ? 'collapsed' : ''}"
+                                 data-path="${child.path}"
+                                 data-level="${level}"
+                                 data-type="folder">
+                                <span class="tree-icon folder-icon">
+                                    <i class="fas ${isCollapsed ? 'fa-folder' : 'fa-folder-open'}"></i>
+                                </span>
+                                <span class="tree-text">${child.name}</span>
+                            </div>
+                            <ul class="${isCollapsed ? '' : 'expanded'}">
+                                ${generateTreeHTML(child, level + 1)}
+                            </ul>
+                        </li>
+                    `;
+                } else {
+                    // 只显示 .md 文件
+                    if (child.name.endsWith('.md')) {
+                        const fileName = child.name.replace('.md', '');
+                        
+                        html += `
+                            <li class="tree-node">
+                                <a class="tree-item ${isActive ? 'active' : ''}"
+                                   href="#${child.path}"
+                                   data-path="${child.path}"
+                                   data-level="${level}"
+                                   data-type="file">
+                                    <span class="tree-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </span>
+                                    <span class="tree-text">${fileName}</span>
+                                </a>
+                            </li>
+                        `;
+                    }
+                }
+            });
+            
+            return html;
+        }
+        
+        // 10. 加载文档
+        async function loadDocument(filePath) {
+            try {
+                // 显示加载状态
+                showLoading('正在加载文档...');
+                
+                // 更新状态
+                state.currentFile = filePath;
+                state.currentPath = filePath;
+                
+                // 更新 URL
+                updateUrlHash(filePath);
+                
+                // 加载文件内容
+                const content = await fetchFileContent(filePath);
+                
+                // 更新页面标题
+                updatePageTitle(filePath);
+                
+                // 渲染内容
+                renderContent(content);
+                
+                // 更新文件树激活状态
+                updateActiveFile();
+                
+                // 生成大纲
+                generateOutline(content);
+                
+                // 确保文件夹展开
+                ensureFolderExpanded(filePath);
+                
+                // 隐藏加载状态
+                hideLoading();
+                
+            } catch (error) {
+                console.error('加载文档失败:', error);
+                showError(`无法加载文档: ${filePath}`);
+            }
+        }
+        
+        // 11. 获取文件内容
+        async function fetchFileContent(filePath) {
+            // 尝试使用相对路径加载
+            const response = await fetch(filePath);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            return await response.text();
+        }
+        
+        // 12. 更新页面标题
+        function updatePageTitle(filePath) {
+            const titleElement = document.getElementById('pageTitle');
+            const subtitleElement = document.getElementById('pageSubtitle');
+            
+            const fileName = filePath.split('/').pop().replace('.md', '');
+            const folderName = filePath.includes('/') ? filePath.split('/')[0] : '';
+            
+            titleElement.textContent = fileName;
+            subtitleElement.textContent = folderName ? `来自: ${folderName}` : '主页';
+            
+            // 更新浏览器标签页标题
+            document.title = `${fileName} - 文档阅读器`;
+        }
+        
+        // 13. 渲染内容
         function renderContent(content) {
             const container = document.getElementById('contentContainer');
             
-            // 简单 Markdown 解析
-            const htmlContent = parseMarkdown(content);
+            // 简单的 Markdown 转 HTML
+            const html = markdownToHTML(content);
             
             container.innerHTML = `
-                <div class="fade-in">
-                    ${htmlContent}
+                <div class="markdown-body fade-in">
+                    ${html}
                 </div>
             `;
             
-            // 添加代码高亮
-            highlightCodeBlocks();
+            // 高亮代码
+            highlightCode();
+            
+            // 绑定内部链接
+            bindInternalLinks();
         }
         
-        // 8. 简单 Markdown 解析器
-        function parseMarkdown(text) {
-            if (!text) return '<p>文档内容为空</p>';
+        // 14. Markdown 转 HTML
+        function markdownToHTML(markdown) {
+            if (!markdown) return '<p>文档内容为空</p>';
             
             // 替换标题
-            text = text.replace(/^# (.*$)/gm, '<h1>$1</h1>');
-            text = text.replace(/^## (.*$)/gm, '<h2>$1</h2>');
-            text = text.replace(/^### (.*$)/gm, '<h3>$1</h3>');
-            text = text.replace(/^#### (.*$)/gm, '<h4>$1</h4>');
+            markdown = markdown.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+            markdown = markdown.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+            markdown = markdown.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+            markdown = markdown.replace(/^#### (.*$)/gm, '<h4>$1</h4>');
             
             // 替换粗体和斜体
-            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            markdown = markdown.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            markdown = markdown.replace(/\*(.*?)\*/g, '<em>$1</em>');
             
             // 替换代码块
-            text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-                return `<pre><code class="language-${lang || 'text'}">${escapeHtml(code)}</code></pre>`;
-            });
+            markdown = markdown.replace(/```([\w]*)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>');
             
             // 替换内联代码
-            text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+            markdown = markdown.replace(/`([^`]+)`/g, '<code>$1</code>');
             
             // 替换无序列表
-            text = text.replace(/^\s*[-*+] (.+)$/gm, '<li>$1</li>');
-            text = text.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+            markdown = markdown.replace(/^\s*[-*+] (.+)$/gm, '<li>$1</li>');
+            markdown = markdown.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
             
             // 替换有序列表
-            text = text.replace(/^\s*\d+\. (.+)$/gm, '<li>$1</li>');
-            text = text.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
+            markdown = markdown.replace(/^\s*\d+\. (.+)$/gm, '<li>$1</li>');
+            markdown = markdown.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
             
             // 替换引用
-            text = text.replace(/^> (.*$)/gm, '<blockquote><p>$1</p></blockquote>');
+            markdown = markdown.replace(/^> (.*$)/gm, '<blockquote><p>$1</p></blockquote>');
             
             // 替换链接
-            text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            markdown = markdown.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+                // 如果是内部链接 (.md 文件)
+                if (url.endsWith('.md')) {
+                    return `<a href="#${url}" class="internal-link">${text}</a>`;
+                }
+                // 外部链接
+                return `<a href="${url}" target="_blank">${text}</a>`;
+            });
             
             // 替换图片
-            text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+            markdown = markdown.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
             
-            // 替换表格（简单支持）
-            text = text.replace(/^\|(.+)\|$/gm, (match, row) => {
+            // 替换表格
+            markdown = markdown.replace(/\|(.+)\|/g, (match, row) => {
                 const cells = row.split('|').map(cell => `<td>${cell.trim()}</td>`).join('');
                 return `<tr>${cells}</tr>`;
             });
             
-            // 替换段落（将连续文本转换为段落）
-            const lines = text.split('\n');
+            // 替换段落
+            const lines = markdown.split('\n');
             let result = [];
             let paragraph = [];
             
@@ -1606,7 +1005,7 @@ A: 确保使用现代浏览器，并检查是否有自定义 CSS 冲突。
                         paragraph = [];
                     }
                 } else if (line.startsWith('<')) {
-                    // 已经是HTML标签，直接添加
+                    // HTML 标签
                     if (paragraph.length) {
                         result.push(`<p>${paragraph.join(' ')}</p>`);
                         paragraph = [];
@@ -1624,374 +1023,385 @@ A: 确保使用现代浏览器，并检查是否有自定义 CSS 冲突。
             return result.join('\n');
         }
         
-        // 9. HTML转义
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // 10. 代码高亮
-        function highlightCodeBlocks() {
-            const codeBlocks = document.querySelectorAll('pre code');
-            
-            codeBlocks.forEach(block => {
-                // 简单的高亮实现
-                const text = block.textContent;
-                const lang = block.className.replace('language-', '');
-                
-                // 可以根据语言进行更复杂的语法高亮
-                // 这里只是简单地为关键字添加样式
-                const highlighted = simpleHighlight(text, lang);
-                block.innerHTML = highlighted;
-            });
-        }
-        
-        // 11. 简单代码高亮
-        function simpleHighlight(code, lang) {
-            // 关键字的简单高亮
-            const keywords = {
-                javascript: ['function', 'const', 'let', 'var', 'if', 'else', 'for', 'while', 'return', 'class', 'import', 'export', 'from', 'default', 'async', 'await', 'try', 'catch', 'finally', 'new', 'this', 'typeof', 'instanceof'],
-                python: ['def', 'class', 'import', 'from', 'as', 'if', 'elif', 'else', 'for', 'while', 'try', 'except', 'finally', 'with', 'as', 'lambda', 'None', 'True', 'False'],
-                bash: ['if', 'then', 'else', 'fi', 'for', 'in', 'do', 'done', 'while', 'case', 'esac', 'function']
-            };
-            
-            let highlighted = escapeHtml(code);
-            
-            if (keywords[lang]) {
-                keywords[lang].forEach(keyword => {
-                    const regex = new RegExp(`\\b(${keyword})\\b`, 'g');
-                    highlighted = highlighted.replace(regex, '<span class="keyword">$1</span>');
+        // 15. 代码高亮
+        function highlightCode() {
+            // 使用 highlight.js
+            if (window.hljs) {
+                document.querySelectorAll('pre code').forEach(block => {
+                    hljs.highlightElement(block);
                 });
             }
-            
-            // 高亮字符串
-            highlighted = highlighted.replace(/('.*?'|".*?")/g, '<span class="string">$1</span>');
-            
-            // 高亮注释
-            highlighted = highlighted.replace(/(\/\/.*?$|\/\*[\s\S]*?\*\/)/gm, '<span class="comment">$1</span>');
-            
-            // 高亮数字
-            highlighted = highlighted.replace(/\b(\d+)\b/g, '<span class="number">$1</span>');
-            
-            return highlighted;
         }
         
-        // 12. 查找文档
-        function findDocument(node, docId) {
-            if (node.id === docId) {
-                return node;
-            }
+        // 16. 生成大纲
+        function generateOutline(content) {
+            const outlineList = document.getElementById('outlineList');
             
-            if (node.children) {
-                for (let child of node.children) {
-                    const found = findDocument(child, docId);
-                    if (found) return found;
-                }
-            }
+            // 提取标题
+            const headings = [];
+            const lines = content.split('\n');
             
-            return null;
-        }
-        
-        // 13. 更新URL
-        function updateURL(docId) {
-            const url = new URL(window.location);
-            url.hash = docId;
-            window.history.replaceState(null, '', url);
-        }
-        
-        // 14. 更新激活项
-        function updateActiveItem() {
-            // 移除所有激活状态
-            document.querySelectorAll('.tree-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // 添加当前激活项
-            if (state.currentDocument) {
-                const activeItem = document.querySelector(`.tree-item[data-id="${state.currentDocument}"]`);
-                if (activeItem) {
-                    activeItem.classList.add('active');
-                }
-            }
-        }
-        
-        // 15. 确保文档可见
-        function ensureDocumentVisible(docId) {
-            const item = document.querySelector(`.tree-item[data-id="${docId}"]`);
-            if (!item) return;
-            
-            // 展开所有父级文件夹
-            let parent = item.closest('ul');
-            while (parent) {
-                const folderItem = parent.previousElementSibling;
-                if (folderItem && folderItem.classList.contains('has-children')) {
-                    folderItem.classList.remove('collapsed');
-                    const folderId = folderItem.dataset.id;
-                    state.collapsedFolders.delete(folderId);
+            lines.forEach((line, index) => {
+                const match = line.match(/^(#{1,4}) (.*)$/);
+                if (match) {
+                    const level = match[1].length;
+                    const text = match[2].trim();
+                    const id = `heading-${index}`;
                     
-                    // 显示子列表
-                    const childList = folderItem.nextElementSibling;
-                    if (childList) {
-                        childList.style.display = 'block';
-                    }
-                }
-                parent = parent.parentElement.closest('ul');
-            }
-        }
-        
-        // 16. 恢复折叠状态
-        function restoreCollapseState() {
-            document.querySelectorAll('.has-children').forEach(item => {
-                const folderId = item.dataset.id;
-                if (state.collapsedFolders.has(folderId)) {
-                    item.classList.add('collapsed');
-                    const childList = item.nextElementSibling;
-                    if (childList) {
-                        childList.style.display = 'none';
-                    }
+                    headings.push({
+                        level,
+                        text,
+                        id
+                    });
                 }
             });
-        }
-        
-        // 17. 切换文件夹折叠
-        function toggleFolder(folderId) {
-            const folderItem = document.querySelector(`.has-children[data-id="${folderId}"]`);
-            if (!folderItem) return;
             
-            const isCollapsed = folderItem.classList.contains('collapsed');
-            const childList = folderItem.nextElementSibling;
-            
-            if (isCollapsed) {
-                // 展开
-                folderItem.classList.remove('collapsed');
-                state.collapsedFolders.delete(folderId);
-                if (childList) {
-                    childList.style.display = 'block';
-                }
-            } else {
-                // 折叠
-                folderItem.classList.add('collapsed');
-                state.collapsedFolders.add(folderId);
-                if (childList) {
-                    childList.style.display = 'none';
-                }
+            if (headings.length === 0) {
+                outlineList.innerHTML = '<div class="loading"><p>此页面没有标题</p></div>';
+                return;
             }
             
-            // 保存到本地存储
-            saveState();
+            // 生成大纲HTML
+            let html = '';
+            headings.forEach(heading => {
+                html += `
+                    <li class="outline-item">
+                        <a href="#${heading.id}" class="outline-h${heading.level}">
+                            ${heading.text}
+                        </a>
+                    </li>
+                `;
+            });
+            
+            outlineList.innerHTML = html;
+            
+            // 绑定大纲点击事件
+            bindOutlineEvents();
+            
+            // 添加标题ID
+            addHeadingIds();
+        }
+        
+        // 17. 添加标题ID
+        function addHeadingIds() {
+            document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4').forEach((heading, index) => {
+                if (!heading.id) {
+                    heading.id = `heading-${index}`;
+                }
+            });
         }
         
         // 18. 加载初始文档
-        function loadInitialDocument() {
+        async function loadInitialDocument() {
             const hash = window.location.hash.substring(1);
             
             if (hash) {
-                // 从URL hash加载文档
-                loadDocument(hash);
+                // 从 URL hash 加载
+                await loadDocument(hash);
             } else {
-                // 加载第一个文档
-                const firstDoc = getFirstDocument(DOCUMENTATION_STRUCTURE.root);
-                if (firstDoc) {
-                    loadDocument(firstDoc.id);
-                }
+                // 加载 README.md
+                await loadDocument('README.md');
             }
         }
         
-        // 19. 获取第一个文档
-        function getFirstDocument(node) {
-            if (node.type === 'document') {
-                return node;
-            }
-            
-            if (node.children) {
-                for (let child of node.children) {
-                    const found = getFirstDocument(child);
-                    if (found) return found;
-                }
-            }
-            
-            return null;
-        }
-        
-        // 20. 绑定事件
+        // 19. 绑定事件
         function bindEvents() {
-            // 侧边栏切换按钮
-            document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
-            
             // 移动端切换按钮
             document.getElementById('mobileToggle').addEventListener('click', toggleMobileSidebar);
             
-            // 主题切换按钮
-            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            // 标签页切换
+            document.querySelectorAll('.sidebar-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    switchTab(tabId);
+                });
+            });
             
-            // 侧边栏点击事件委托
-            document.getElementById('sidebarTree').addEventListener('click', handleSidebarClick);
+            // 文件树点击事件委托
+            document.getElementById('fileTree').addEventListener('click', handleTreeClick);
             
-            // 监听hash变化
+            // 监听 hash 变化
             window.addEventListener('hashchange', handleHashChange);
             
-            // 监听窗口大小变化
-            window.addEventListener('resize', handleResize);
+            // 监听滚动（用于大纲高亮）
+            window.addEventListener('scroll', handleScroll, { passive: true });
         }
         
-        // 21. 处理侧边栏点击
-        function handleSidebarClick(event) {
+        // 20. 处理文件树点击
+        function handleTreeClick(event) {
             const treeItem = event.target.closest('.tree-item');
             if (!treeItem) return;
             
             event.preventDefault();
             
-            const itemId = treeItem.dataset.id;
-            const itemType = treeItem.dataset.type;
+            const type = treeItem.dataset.type;
+            const path = treeItem.dataset.path;
             
-            if (itemType === 'folder') {
-                // 点击文件夹：切换折叠状态
-                toggleFolder(itemId);
-            } else {
-                // 点击文档：加载文档
-                loadDocument(itemId);
+            if (type === 'folder') {
+                // 切换文件夹展开/折叠
+                toggleFolder(path);
+            } else if (type === 'file') {
+                // 加载文档
+                loadDocument(path);
                 
-                // 在移动端自动关闭侧边栏
+                // 移动端自动关闭侧边栏
                 if (window.innerWidth <= 768) {
                     document.getElementById('sidebar').classList.remove('show');
                 }
             }
         }
         
-        // 22. 切换侧边栏（桌面端）
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const toggleIcon = document.getElementById('sidebarToggle').querySelector('i');
+        // 21. 绑定文件夹事件
+        function bindFolderEvents() {
+            document.querySelectorAll('.tree-item.folder').forEach(folder => {
+                folder.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'A') return;
+                    
+                    const path = folder.dataset.path;
+                    toggleFolder(path);
+                });
+            });
+        }
+        
+        // 22. 切换文件夹
+        function toggleFolder(path) {
+            const isCollapsed = state.collapsedFolders.has(path);
             
-            state.sidebarExpanded = !state.sidebarExpanded;
-            sidebar.classList.toggle('collapsed');
-            
-            // 更新图标
-            if (state.sidebarExpanded) {
-                toggleIcon.className = 'fas fa-chevron-left';
+            if (isCollapsed) {
+                state.collapsedFolders.delete(path);
             } else {
-                toggleIcon.className = 'fas fa-chevron-right';
+                state.collapsedFolders.add(path);
             }
+            
+            // 重新渲染文件树
+            renderFileTree();
             
             // 保存状态
             saveState();
         }
         
-        // 23. 切换移动端侧边栏
-        function toggleMobileSidebar() {
-            document.getElementById('sidebar').classList.toggle('show');
+        // 23. 恢复文件夹状态
+        function restoreFolderState() {
+            document.querySelectorAll('.tree-item.folder').forEach(folder => {
+                const path = folder.dataset.path;
+                if (state.collapsedFolders.has(path)) {
+                    folder.classList.add('collapsed');
+                    const childList = folder.nextElementSibling;
+                    if (childList && childList.tagName === 'UL') {
+                        childList.classList.remove('expanded');
+                    }
+                }
+            });
         }
         
-        // 24. 处理hash变化
+        // 24. 确保文件夹展开
+        function ensureFolderExpanded(filePath) {
+            const parts = filePath.split('/');
+            
+            // 遍历所有父文件夹
+            for (let i = 0; i < parts.length - 1; i++) {
+                const folderPath = parts.slice(0, i + 1).join('/');
+                state.collapsedFolders.delete(folderPath);
+            }
+            
+            // 重新渲染文件树
+            renderFileTree();
+        }
+        
+        // 25. 切换标签页
+        function switchTab(tabId) {
+            state.activeTab = tabId;
+            
+            // 更新标签按钮
+            document.querySelectorAll('.sidebar-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 显示对应内容
+            if (tabId === 'files') {
+                document.getElementById('fileTree').style.display = 'block';
+                document.getElementById('outlineContainer').classList.remove('active');
+            } else {
+                document.getElementById('fileTree').style.display = 'none';
+                document.getElementById('outlineContainer').classList.add('active');
+            }
+        }
+        
+        // 26. 更新URL
+        function updateUrlHash(filePath) {
+            window.location.hash = filePath;
+        }
+        
+        // 27. 处理hash变化
         function handleHashChange() {
             const hash = window.location.hash.substring(1);
-            if (hash && hash !== state.currentDocument) {
+            if (hash && hash !== state.currentFile) {
                 loadDocument(hash);
             }
         }
         
-        // 25. 初始化主题
-        function initTheme() {
-            // 从本地存储加载主题设置
-            const savedTheme = localStorage.getItem('docs-theme');
-            if (savedTheme) {
-                state.theme = savedTheme;
-            } else {
-                // 检测系统主题
-                state.theme = 'auto';
-            }
+        // 28. 更新激活文件
+        function updateActiveFile() {
+            document.querySelectorAll('.tree-item').forEach(item => {
+                item.classList.remove('active');
+            });
             
-            applyTheme();
+            if (state.currentFile) {
+                const activeItem = document.querySelector(`.tree-item[data-path="${state.currentFile}"]`);
+                if (activeItem) {
+                    activeItem.classList.add('active');
+                }
+            }
         }
         
-        // 26. 应用主题
-        function applyTheme() {
-            const themeToggleIcon = document.getElementById('themeToggle').querySelector('i');
+        // 29. 绑定内部链接
+        function bindInternalLinks() {
+            document.querySelectorAll('.internal-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const href = link.getAttribute('href').substring(1);
+                    loadDocument(href);
+                });
+            });
+        }
+        
+        // 30. 绑定大纲事件
+        function bindOutlineEvents() {
+            document.querySelectorAll('.outline-item a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        // 滚动到标题位置
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // 高亮大纲项
+                        document.querySelectorAll('.outline-item').forEach(item => {
+                            item.classList.remove('active');
+                        });
+                        link.parentElement.classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        // 31. 处理滚动（大纲高亮）
+        function handleScroll() {
+            if (state.activeTab !== 'outline') return;
             
-            if (state.theme === 'dark' || (state.theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                // 暗色主题
-                document.documentElement.setAttribute('data-theme', 'dark');
-                themeToggleIcon.className = 'fas fa-sun';
-            } else {
-                // 亮色主题
-                document.documentElement.setAttribute('data-theme', 'light');
-                themeToggleIcon.className = 'fas fa-moon';
-            }
-        }
-        
-        // 27. 切换主题
-        function toggleTheme() {
-            if (state.theme === 'auto') {
-                state.theme = 'light';
-            } else if (state.theme === 'light') {
-                state.theme = 'dark';
-            } else {
-                state.theme = 'auto';
-            }
+            const headings = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3');
+            let currentHeading = null;
             
-            applyTheme();
-            saveState();
-        }
-        
-        // 28. 检查移动设备
-        function checkMobile() {
-            if (window.innerWidth <= 768) {
-                // 移动设备：默认折叠侧边栏
-                document.getElementById('sidebar').classList.remove('collapsed');
+            headings.forEach(heading => {
+                const rect = heading.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top <= 200) {
+                    currentHeading = heading.id;
+                }
+            });
+            
+            if (currentHeading) {
+                document.querySelectorAll('.outline-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                const activeOutline = document.querySelector(`.outline-item a[href="#${currentHeading}"]`);
+                if (activeOutline) {
+                    activeOutline.parentElement.classList.add('active');
+                }
             }
         }
         
-        // 29. 处理窗口大小变化
-        function handleResize() {
-            checkMobile();
+        // 32. 切换移动端侧边栏
+        function toggleMobileSidebar() {
+            document.getElementById('sidebar').classList.toggle('show');
         }
         
-        // 30. 保存状态到本地存储
+        // 33. 保存状态
         function saveState() {
             const stateToSave = {
-                sidebarExpanded: state.sidebarExpanded,
-                theme: state.theme,
-                collapsedFolders: Array.from(state.collapsedFolders)
+                collapsedFolders: Array.from(state.collapsedFolders),
+                activeTab: state.activeTab
             };
             
-            localStorage.setItem('docs-state', JSON.stringify(stateToSave));
-        }
-        
-        // 31. 从本地存储加载状态
-        function loadState() {
             try {
-                const saved = JSON.parse(localStorage.getItem('docs-state'));
-                if (saved) {
-                    state.sidebarExpanded = saved.sidebarExpanded || true;
-                    state.theme = saved.theme || 'auto';
-                    state.collapsedFolders = new Set(saved.collapsedFolders || []);
-                }
+                localStorage.setItem('docs-reader-state', JSON.stringify(stateToSave));
             } catch (e) {
-                console.warn('无法加载保存的状态', e);
+                console.warn('无法保存状态:', e);
             }
         }
         
-        // ===== 初始化应用 =====
-        document.addEventListener('DOMContentLoaded', function() {
+        // 34. 加载状态
+        function loadState() {
+            try {
+                const saved = localStorage.getItem('docs-reader-state');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    state.collapsedFolders = new Set(parsed.collapsedFolders || []);
+                    state.activeTab = parsed.activeTab || 'files';
+                }
+            } catch (e) {
+                console.warn('无法加载状态:', e);
+            }
+        }
+        
+        // 35. 显示加载状态
+        function showLoading(message) {
+            const container = document.getElementById('contentContainer');
+            container.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+        
+        // 36. 隐藏加载状态
+        function hideLoading() {
+            // 加载状态会在渲染内容时被替换
+        }
+        
+        // 37. 显示错误
+        function showError(message) {
+            const container = document.getElementById('contentContainer');
+            container.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>${message}</p>
+                    <p style="margin-top: 16px; font-size: 14px;">
+                        <button onclick="location.reload()" style="padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;">
+                            重新加载
+                        </button>
+                    </p>
+                </div>
+            `;
+        }
+        
+        // ===== 初始化 =====
+        document.addEventListener('DOMContentLoaded', async function() {
             // 加载保存的状态
             loadState();
             
-            // 初始化应用
-            initApp();
+            // 初始化标签页
+            switchTab(state.activeTab);
             
-            // 添加一些CSS规则用于代码高亮
-            const style = document.createElement('style');
-            style.textContent = `
-                .keyword { color: #c678dd; font-weight: bold; }
-                .string { color: #98c379; }
-                .comment { color: #5c6370; font-style: italic; }
-                .number { color: #d19a66; }
-                pre { background: var(--bg-tertiary) !important; border: 1px solid var(--border-color) !important; }
-                code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; }
-            `;
-            document.head.appendChild(style);
+            // 初始化应用
+            await initApp();
+            
+            // 自动隐藏移动端侧边栏
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('show');
+            }
         });
     </script>
+    
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 </body>
 </html>
