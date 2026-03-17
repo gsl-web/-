@@ -1,0 +1,22 @@
+# 只需改这3处 ↓
+site_name: -  # 例：MyProject
+site_url: https://gsl-web.github.io/-/  # 例：https://zhangsan.github.io/my-note/
+repo_url: https://github.com/gsl-web/-  # 例：https://github.com/zhangsan/my-note/
+
+# 以下内容无需修改，直接用
+theme:
+  name: material  # 符合GitHub风格的美观主题
+  features:
+    - navigation.side  # 启用侧边导航（核心）
+    - navigation.tracking  # 滚动时高亮当前标题
+    - toc.integrate  # 自动解析Markdown标题到侧边栏
+
+# 自动关联README.md，无需改内容
+nav:
+  - 首页: README.md
+
+# 自动解析h1-h4标题生成导航
+markdown_extensions:
+  - toc:
+      permalink: true
+      depth: 6
