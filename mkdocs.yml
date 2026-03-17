@@ -1,18 +1,16 @@
-# 📌 基本信息（改这3处）
-site_name: 公考判断推理笔记
-site_url: https://gsl-web.github.io/-/
-repo_url: https://github.com/gsl-web/-
+site_name: 公考笔记
+site_url: https://gsl-web.github.io/gsl-web/
+repo_url: https://github.com/gsl-web/gsl-web
 
-# 🎨 核心主题配置（关键：修复侧边栏不显示）
 theme:
   name: material
   language: zh
   features:
-    - navigation.tabs  # 顶部导航标签
-    - navigation.sections  # 侧边栏分组
-    - navigation.expand  # 默认展开子项
-    - toc.integrate  # 🔧 核心：把目录集成到侧边栏（必开）
-    - navigation.tracking  # 滚动高亮当前标题
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+    - navigation.tracking
   palette:
     - scheme: default
       toggle:
@@ -23,21 +21,18 @@ theme:
         icon: material/toggle-switch
         name: 切换浅色模式
 
-# 📂 文档目录配置（关键：你的文件在根目录，需指定）
-docs_dir: .  # 表示当前目录（与 mkdocs.yml 同级别），包含 README.md 和判断推理/ 等文件夹
+docs_dir: .
 
-# 🔗 导航配置（自动识别所有文件，无需手动列）
 nav:
   - 首页: README.md
   - 判断推理: 判断推理/
   - 数量关系: 数量关系/
   - 言语理解: 言语理解/
 
-# 📝 Markdown 扩展（自动生成目录锚点）
 markdown_extensions:
   - toc:
-      permalink: true  # 每个标题加锚点，支持跳转
-      depth: 4  # 解析 h1-h4
+      permalink: true
+      depth: 4
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
