@@ -1,22 +1,45 @@
-# 只需改这3处 ↓
-site_name: -  # 例：MyProject
-site_url: https://gsl-web.github.io/-/  # 例：https://zhangsan.github.io/my-note/
-repo_url: https://github.com/gsl-web/-  # 例：https://github.com/zhangsan/my-note/
+# 📌 基本信息（改这3处）
+site_name: 公考判断推理笔记
+site_url: https://gsl-web.github.io/-/
+repo_url: https://github.com/gsl-web/-
 
-# 以下内容无需修改，直接用
+# 🎨 核心主题配置（关键：修复侧边栏不显示）
 theme:
-  name: material  # 符合GitHub风格的美观主题
+  name: material
+  language: zh
   features:
-    - navigation.side  # 启用侧边导航（核心）
-    - navigation.tracking  # 滚动时高亮当前标题
-    - toc.integrate  # 自动解析Markdown标题到侧边栏
+    - navigation.tabs  # 顶部导航标签
+    - navigation.sections  # 侧边栏分组
+    - navigation.expand  # 默认展开子项
+    - toc.integrate  # 🔧 核心：把目录集成到侧边栏（必开）
+    - navigation.tracking  # 滚动高亮当前标题
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: 切换深色模式
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: 切换浅色模式
 
-# 自动关联README.md，无需改内容
+# 📂 文档目录配置（关键：你的文件在根目录，需指定）
+docs_dir: .  # 表示当前目录（与 mkdocs.yml 同级别），包含 README.md 和判断推理/ 等文件夹
+
+# 🔗 导航配置（自动识别所有文件，无需手动列）
 nav:
   - 首页: README.md
+  - 判断推理: 判断推理/
+  - 数量关系: 数量关系/
+  - 言语理解: 言语理解/
 
-# 自动解析h1-h4标题生成导航
+# 📝 Markdown 扩展（自动生成目录锚点）
 markdown_extensions:
   - toc:
-      permalink: true
-      depth: 6 
+      permalink: true  # 每个标题加锚点，支持跳转
+      depth: 4  # 解析 h1-h4
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
