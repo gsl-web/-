@@ -1,6 +1,6 @@
 site_name: 公考笔记
-site_url: https://gsl-web.github.io/gsl-web/
-repo_url: https://github.com/gsl-web/gsl-web
+site_url: https://gsl-web.github.io/-/
+repo_url: https://github.com/gsl-web/-/
 
 theme:
   name: material
